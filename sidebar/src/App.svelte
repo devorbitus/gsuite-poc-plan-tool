@@ -122,7 +122,7 @@
             google.script.run.prepSessionSlide(dealDetails);
             break;
         case SLIDE_BUTTON_TYPE.WARNINGS:
-            google.script.run.repalceDocsLinksAndWarnings(dealDetails);
+            google.script.run.replaceDocsLinksAndWarnings(dealDetails);
             break;
         case SLIDE_BUTTON_TYPE.SESSION_TASKS:
             google.script.run.selectSessionTaskShapes();

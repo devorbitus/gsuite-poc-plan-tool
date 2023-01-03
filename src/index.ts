@@ -19,7 +19,7 @@ const BODY_TOP = 68.19960314960629;
 const BODY_WIDTH = 667.8425196850394;
 const BODY_HEIGHT = 283.46456692913387;
 const CIRCLE_SHAPE_WIDTH_AND_HEIGHT = 13.582677165354331;
-const MDNDA_SIGNED_EMOJI = "✅";
+const MNDA_SIGNED_EMOJI = "✅";
 const BODY_WARNING_CUSTOM_COLOR = "#071724";
 const SESSION_PLAN_TASKS_FIRST_LEFT = 0;
 const SESSION_PLAN_TASKS_LAST_LEFT = 600;
@@ -578,6 +578,383 @@ function prepSummarySlide(inputObject) {
     
     if (msgs?.length) {
       alertOnMessages(msgs, undefined);
+    }
+}
+
+function populateSessionTextObjectsFromSession(session, sheetValues) {
+    const sessionTextObjects: any[] = [];
+    // work the session object
+    session.topicsToWork.forEach( (topic) => {
+      const choicesThisSession = session.choices[topic];
+      const choices: any[] = [];
+      const links: any[] = [];
+      const warnings: any[] = [];
+      const topicObj = sheetValues[topic];
+      choicesThisSession.forEach( (sessionChoice) => {
+        const choiceObj = topicObj?.[sessionChoice.camelizedChoice];
+        if (choiceObj) {
+          // we have a choice object
+          choices.push(choiceObj.choice);
+          choiceObj.links.forEach( (link) => links.push(link));
+          if (choiceObj.warningMessage !== ''){
+            warnings.push(choiceObj.warningMessage.trim());
+          }
+        } else {
+          // no choice object found (maybe custom choice)
+          choices.push(sessionChoice.sessionFullChoice);
+        }
+      });
+      if (!topicObj?.fullTopicName) {
+        Logger.log("Full topic name not found for topic : ", topic)
+      }
+      const title = `${topicObj?.fullTopicName} (${choices.join(", ")})`;
+      const sessionTextObject = {
+        title,
+        topic: topicObj?.fullTopicName,
+        choices: choices.join(", "),
+        links,
+        warnings
+      };
+      sessionTextObjects.push(sessionTextObject);
+    })
+    return sessionTextObjects;
+  }
+
+function createGatewaySessionObject(session, sheetValues) {
+    const sessionTextObjects = [{
+      title: SESSION_ONE_TITLE_ONE,
+      links: SESSION_ONE_TITLE_ONE_URLS,
+      warnings: SESSION_ONE_TITLE_ONE_WARNINGS
+    },{
+      title: SESSION_ONE_TITLE_TWO,
+      links: SESSION_ONE_TITLE_TWO_URLS,
+      warnings: SESSION_ONE_TITLE_TWO_WARNINGS
+    }];
+    // gather text for body of slide
+    const additionalSessionTextObjects = populateSessionTextObjectsFromSession(session, sheetValues);
+    additionalSessionTextObjects.forEach( (item) => sessionTextObjects.push(item));
+    return sessionTextObjects;
+  }
+
+function createOtherSessionObjects(session, sheetValues) {
+    // gather text for body of slide
+    const sessionTextObjects = populateSessionTextObjectsFromSession(session, sheetValues);
+    return sessionTextObjects;
+}
+
+function createSessionTextObjects(sessions, sheetValues) {
+    let sessionTextObjects: any[] = [];
+    sessions.forEach( (session) => {
+      const sessionArray: any[] = [];
+      if (session.sessionNumber == 1) {
+        const sessionObjects = createGatewaySessionObject(session, sheetValues);
+        sessionObjects.forEach( (item) => sessionArray.push(item));
+      } else {
+        const sessionObjects = createOtherSessionObjects(session, sheetValues);
+        sessionObjects.forEach( (item) => sessionArray.push(item));
+      }
+      sessionTextObjects.push(sessionArray);
+    })
+    return sessionTextObjects;
+  }
+
+function appendSessionTopicAndChoice(taskShapeTextRange, topic, choices) {
+    // set topic
+    const topicText = topic + CHAR_NEW_LINE;
+    const taskShapeTopicTextRange = taskShapeTextRange.appendText(topicText);
+    const taskShapeTopicTextRangeParagraphStyle = taskShapeTopicTextRange.getParagraphStyle();
+    taskShapeTopicTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+    const taskShapeTopicTextRangeTextStyle = taskShapeTopicTextRange.getTextStyle();
+    taskShapeTopicTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+    taskShapeTopicTextRangeTextStyle.setFontSize(SESSION_PLAN_TOPIC_FONT_SIZE);
+    taskShapeTopicTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+    // set choices
+    const choicesText = choices + CHAR_NEW_LINE;
+    const taskShapeChoicesTextRange = taskShapeTextRange.appendText(choicesText);
+    const taskShapeChoicesTextRangeParagraphStyle = taskShapeChoicesTextRange.getParagraphStyle();
+    taskShapeChoicesTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+    const taskShapeChoicesTextRangeTextStyle = taskShapeChoicesTextRange.getTextStyle();
+    taskShapeChoicesTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+    taskShapeChoicesTextRangeTextStyle.setFontSize(SESSION_PLAN_CHOICES_FONT_SIZE);
+    taskShapeChoicesTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+}
+
+function createSessionPlanShape(slide, shapeEnum, index, lastItemIndex) {
+    let taskShape;
+    const isLast = index == lastItemIndex;
+    let calculatedLeft;
+    let needsContentAlignBottom = false;
+    switch (shapeEnum){
+      case SESSION_PLAN_TYPE.TASK:
+        if (isLast) {
+          calculatedLeft = SESSION_PLAN_TASKS_LAST_LEFT;
+        } else {
+          calculatedLeft = SESSION_PLAN_TASKS_FIRST_LEFT + index;
+        }
+        taskShape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 
+          calculatedLeft, 
+          SESSION_PLAN_TASKS_TOP, 
+          SESSION_PLAN_TASKS_WIDTH, 
+          SESSION_PLAN_TASKS_HEIGHT);
+        needsContentAlignBottom = true;
+        break;
+      case SESSION_PLAN_TYPE.SHAPE:
+        if (isLast) {
+          calculatedLeft = SESSION_PLAN_SHAPE_LAST_LEFT;
+        } else {
+          calculatedLeft = SESSION_PLAN_SHAPE_FIRST_LEFT + index;
+        }
+        taskShape = slide.insertShape(SlidesApp.ShapeType.ELLIPSE, 
+          calculatedLeft, 
+          SESSION_PLAN_SHAPE_TOP, 
+          SESSION_PLAN_SHAPE_WIDTH, 
+          SESSION_PLAN_SHAPE_HEIGHT);
+        break;
+      case SESSION_PLAN_TYPE.DATE:
+        if (isLast) {
+          calculatedLeft = SESSION_PLAN_DATE_LAST_LEFT;
+        } else {
+          calculatedLeft = SESSION_PLAN_DATE_FIRST_LEFT + index;
+        }
+        taskShape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 
+          calculatedLeft, 
+          SESSION_PLAN_DATE_TOP, 
+          SESSION_PLAN_DATE_WIDTH, 
+          SESSION_PLAN_DATE_HEIGHT);
+        taskShape.setContentAlignment(SlidesApp.ContentAlignment.TOP);
+        break;
+    }
+    if (needsContentAlignBottom) {
+      taskShape.setContentAlignment(SlidesApp.ContentAlignment.BOTTOM);
+    }
+    return taskShape;
+}
+
+function prepSessionSlide(inputObject) {
+    const obj = inputObject;
+    let msgs = [];
+    const { sessions } = prepSession(obj);
+    const sheetValues = prepSheetValues();
+    const sessionTextObjects = createSessionTextObjects(sessions, sheetValues);
+
+    let { slide } = createProperBlankSlide(true);
+    addHeaderToSlide_(slide, SESSION_PLAN_TITLE);
+
+    const lastItemIndex = sessions.length - 1;
+    const documentProperties = PropertiesService.getDocumentProperties();
+    const taskShapeIDs: any[] = [];
+    const circleShapeIDs: any[] = [];
+    const dateShapeIDs: any[] = [];
+    sessions.forEach( (session, index) => {
+        const isFirst = index == 0;
+        const isLast = index == lastItemIndex;
+
+        const sessionTextObjectArray = sessionTextObjects[index];
+        let sessionTextObject;
+
+        // create task shape
+        const taskShape = createSessionPlanShape(slide, SESSION_PLAN_TYPE.TASK, index, lastItemIndex);
+        let taskShapeTextRange = taskShape.getText();
+        
+        if (isFirst) {
+        sessionTextObject = sessionTextObjectArray.pop();
+        const text = SESSION_PLAN_TASKS_GATEWAY_PREFIX + sessionTextObject.choices + CHAR_NEW_LINE;
+        taskShapeTextRange.appendText(text);
+        const taskShapeTextRangeParagraphStyle = taskShapeTextRange.getParagraphStyle();
+        taskShapeTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+        const taskShapeTextRangeTextStyle = taskShapeTextRange.getTextStyle();
+        taskShapeTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+        taskShapeTextRangeTextStyle.setFontSize(SESSION_PLAN_GATEWAY_FONT_SIZE);
+        taskShapeTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+        } else {
+        sessionTextObjectArray.forEach( (sessionTextObject) => {
+            appendSessionTopicAndChoice(taskShapeTextRange, sessionTextObject.topic, sessionTextObject.choices);
+        });
+        }
+        if (isLast) {
+        appendSessionTopicAndChoice(taskShapeTextRange, SESSION_PLAN_SUMMARY_POSTFIX_TOPIC, SESSION_PLAN_SUMMARY_POSTFIX_CHOICES);
+        }
+        taskShapeIDs.push(taskShape.getObjectId());
+
+        // create circle shape under task
+        const circleShape = createSessionPlanShape(slide, SESSION_PLAN_TYPE.SHAPE, index, lastItemIndex);
+        const circleShapeFill = circleShape.getFill();
+        circleShapeFill.setSolidFill(SESSION_PLAN_SHAPE_COLOR_HEX_STRING);
+        circleShapeIDs.push(circleShape.getObjectId());
+        const circleShapeBorder = circleShape.getBorder();
+        circleShapeBorder.setTransparent();
+
+        // create date shape
+        const dateShape = createSessionPlanShape(slide, SESSION_PLAN_TYPE.DATE, index, lastItemIndex);
+        const dateShapeTextRange = dateShape.getText();
+        const text = SESSION_PLAN_DATE_PREFIX + session.sessionNumber + CHAR_NEW_LINE;
+        dateShapeTextRange.appendText(text);
+        const dateShapeTextRangeParagraphStyle = dateShapeTextRange.getParagraphStyle();
+        dateShapeTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+        const dateShapeTextRangeTextStyle = dateShapeTextRange.getTextStyle();
+        dateShapeTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+        dateShapeTextRangeTextStyle.setFontSize(SESSION_PLAN_DATE_DEFAULT_FONT_SIZE);
+        dateShapeTextRangeTextStyle.setForegroundColor(standardColorObject.blue);
+        dateShapeIDs.push(dateShape.getObjectId());
+        const dateMinutesTextRange = dateShapeTextRange.appendText(SESSION_PLAN_DATE_TEXT);
+        const dateMinutesTextRangeTextStyle = dateMinutesTextRange.getTextStyle();
+        dateMinutesTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+        dateMinutesTextRangeTextStyle.setFontSize(SESSION_PLAN_DATE_MINUTES_FONT_SIZE);
+        dateShapeTextRange.appendText(CHAR_NEW_LINE);
+        dateShapeTextRange.appendText(CHAR_NEW_LINE);
+        let sessionDayOfWeek = "";
+        let sessionShortDate = "";
+        if (obj.suppressSessionDateOnPlan) {
+        sessionDayOfWeek = "TBD";
+        sessionShortDate = "-/-"
+        } else {
+        const sessionDate = new Date(session.sessionDate);
+        let dayName = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format;
+        sessionDayOfWeek = dayName(sessionDate);
+        sessionShortDate = new Date().toLocaleDateString('en-US', {month: 'numeric', day: 'numeric'});
+        }
+        const dateDaysDateShapeTextRange = dateShapeTextRange.appendText(sessionDayOfWeek);
+        const dateDaysDateShapeTextRangeTextStyle = dateDaysDateShapeTextRange.getTextStyle();
+        dateDaysDateShapeTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+        dateDaysDateShapeTextRangeTextStyle.setFontSize(SESSION_PLAN_DATE_DEFAULT_FONT_SIZE);
+        dateDaysDateShapeTextRange.appendText(CHAR_NEW_LINE);
+        dateDaysDateShapeTextRange.appendText(sessionShortDate);
+    });
+
+    const taskShapeIdsJsonString = JSON.stringify(taskShapeIDs, null, 2);
+    const circleShapeIdsJsonString = JSON.stringify(circleShapeIDs, null, 2);
+    const dateShapeIdsJsonString = JSON.stringify(dateShapeIDs, null, 2);
+
+    documentProperties.setProperty(SESSION_PLAN_PROPERTY_CIRCLE_SHAPES_ID, circleShapeIdsJsonString);
+    documentProperties.setProperty(SESSION_PLAN_PROPERTY_TASK_SHAPES_ID, taskShapeIdsJsonString);
+    documentProperties.setProperty(SESSION_PLAN_PROPERTY_DATE_SHAPES_ID, dateShapeIdsJsonString);
+    documentProperties.setProperty(SESSION_PLAN_PROPERTY_SLIDE_ID, slide.getObjectId());
+
+    // create line between circle shapes
+    const startShapeId = circleShapeIDs[0];
+    const endShapeId = circleShapeIDs[circleShapeIDs.length - 1];
+    const line = slide.insertLine(
+        SlidesApp.LineCategory.STRAIGHT,
+        slide.getPageElementById(startShapeId).asShape().getConnectionSites()[6],
+        slide.getPageElementById(endShapeId).asShape().getConnectionSites()[6]
+    );
+    line.sendToBack();
+
+    if (msgs?.length) {
+        alertOnMessages(msgs, undefined);
+    }
+}
+
+function populateLogisticsSlideBody(shape, logisticsObject, isMndaSigned) {
+    const textRange = shape.getText();
+
+    logisticsObject.logisticsItems.forEach( (logisticsItem, index) => {
+        const itemText = `${logisticsItem.item}${index == 0 && logisticsItem.isMndaSigned ? MNDA_SIGNED_EMOJI : ''}`;
+        const insertedText = textRange.appendText(itemText);
+        const insertedTextStyle = insertedText.getTextStyle();
+        insertedTextStyle.setFontFamily(BODY_FONT_FAMILY);
+        insertedTextStyle.setFontSize(LOGISTICS_BODY_FONT_SIZE);
+        insertedTextStyle.setBold(true);
+        if (logisticsItem.subItem !== "") {
+        textRange.appendText(CHAR_NEW_LINE);
+        const insertedText = textRange.appendText(logisticsItem.subItem);
+        const insertedTextStyle = insertedText.getTextStyle();
+        insertedTextStyle.setFontFamily(BODY_FONT_FAMILY);
+        insertedTextStyle.setFontSize(LOGISTICS_SUB_ITEM_BODY_FONT_SIZE);
+        insertedTextStyle.setBold(false);
+        }
+        textRange.appendText(CHAR_NEW_LINE);
+        textRange.appendText(CHAR_NEW_LINE);
+    });
+}
+
+function populateSessionShapeText(shape, sessionTextObjects) {
+    sessionTextObjects.forEach( (sessionShapeObject) => {
+        const textRange = shape.getText();
+        // Set text in TEXT_BOX
+        textRange.appendText(SESSION_ITEM_START);
+        // add session topic and choices title
+        const insertedText = textRange.appendText(sessionShapeObject.title);
+        const insertedTextStyle = insertedText.getTextStyle();
+        insertedTextStyle.setFontFamily(BODY_FONT_FAMILY);
+        insertedTextStyle.setFontSize(BODY_FONT_SIZE);
+        insertedTextStyle.setForegroundColor(standardColorObject.cornflower_blue);
+        textRange.appendText(CHAR_NEW_LINE);
+        // add urls
+        sessionShapeObject.links?.forEach( (url) => {
+        const insertedLink = textRange.appendText(url);
+        const insertedTextStyle = insertedLink.getTextStyle();
+        insertedTextStyle.setLinkUrl(url);
+        insertedTextStyle.setFontSize(BODY_LINK_FONT_SIZE);
+        textRange.appendText(CHAR_NEW_LINE);
+        });
+        textRange.appendText(CHAR_NEW_LINE);
+        // add warnings
+        sessionShapeObject.warnings?.forEach( (warning) => {
+        textRange.appendText(CHAR_TAB);
+        const insertedText = textRange.appendText(warning);
+        const insertedTextStyle = insertedText.getTextStyle();
+        insertedTextStyle.setFontFamily(BODY_FONT_FAMILY);
+        insertedTextStyle.setFontSize(BODY_FONT_SIZE);
+        insertedTextStyle.setForegroundColor(BODY_WARNING_CUSTOM_COLOR);
+        textRange.appendText(CHAR_NEW_LINE);
+        });
+        textRange.appendText(CHAR_NEW_LINE);
+    });
+}
+
+function addBodyToSlide_(slide, session, sheetValues) {
+    // create body text shape on slide
+    const shape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, BODY_LEFT, BODY_TOP, BODY_WIDTH, BODY_HEIGHT);
+    shape.setContentAlignment(SlidesApp.ContentAlignment.TOP);
+    const sessionTextObjects:any[] = [];
+    if (session.sessionNumber == 1) {
+        const sessionObjects = createGatewaySessionObject(session, sheetValues);
+        sessionObjects.forEach( (item) => sessionTextObjects.push(item));
+    } else {
+        const sessionObjects = createOtherSessionObjects(session, sheetValues);
+        sessionObjects.forEach( (item) => sessionTextObjects.push(item));
+    }
+    populateSessionShapeText(shape, sessionTextObjects);
+}
+
+function replaceDocsLinksAndWarnings(inputObject){
+    const obj = inputObject;
+    const presentation = SlidesApp.getActivePresentation();
+    // let slides = presentation.getSlides();
+    // Set the slide deck as the active presentation
+    let msgs = [];
+
+    var layouts = presentation.getLayouts();
+    let layoutToUse = layouts.find( (layout) => layout.getLayoutName() == LAYOUT_TO_USE_ID) || layouts[0];
+
+    const sheetValues = getReferenceSheetValues();
+
+    // work the sessions
+    obj.createSessions.forEach( (session) => {
+        let slide = presentation.appendSlide(layoutToUse);
+        slide.selectAsCurrentPage();
+        const preppedSession = cleanAndPrepareSessionObject(session);
+        // Make the Header on the new page
+        const sessiontTitle = `${HEADER_PREFIX}${session.sessionNumber}`;
+        addHeaderToSlide_(slide, sessiontTitle);
+
+        // Make the body on the new page
+        addBodyToSlide_(slide, preppedSession, sheetValues);
+
+    })
+
+    // work the logistics slide
+    let slide = presentation.appendSlide(layoutToUse);
+    slide.selectAsCurrentPage();
+    addHeaderToSlide_(slide, LOGISTICS_TITLE_TEXT);
+    const shape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, BODY_LEFT, BODY_TOP, BODY_WIDTH, BODY_HEIGHT);
+    shape.setContentAlignment(SlidesApp.ContentAlignment.TOP);
+    populateLogisticsSlideBody(shape, LOGISTICS_PAGE_OBJECT, obj?.isMndaSigned || false);
+
+
+    if(msgs.length > 0){
+        SlidesApp.getUi().alert(msgs.join("\n"));
     }
 }
 
