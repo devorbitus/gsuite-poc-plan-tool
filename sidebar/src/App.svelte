@@ -1,8 +1,7 @@
 <script >
-  import { useForm, required } from "svelte-use-form";
-  const form = useForm({
-    deal: { validators: [required]}
-  });
+  import { useForm } from "svelte-use-form";
+  import AutoComplete from "simple-svelte-autocomplete"
+  const form = useForm();
   let allDeals = [];
   let formEl;
   let mainEl;
@@ -12,7 +11,10 @@
   let lastHubSpotDealID = '';
   let companySaveName = '';
   let dealDetails;
+  let selectedDealObject;
+  let selectedDealId;
   let isReadyToSave = false;
+
   const POC_FILE_NAME_PREFIX = "Akeyless Vault Platform - POC Plan - ";
   
   const getInputId = (inputValue) => {
@@ -58,13 +60,12 @@
     listDealsErrors = "ERROR: " + error.message;
   }
 
-  const onSubmitDealSelection = (e) => {
-    const formValues = $form.values;
+  const onSubmitDealSelection = () => {
     setCursor('wait');
     google.script.run
         .withSuccessHandler(onDealGetSuccess)
         .withFailureHandler(onDealGetFailure)
-        .getDeal(formValues.deal);
+        .getDeal(selectedDealId);
   }
 
   const onDealGetSuccess = (deal) => {
@@ -81,63 +82,75 @@
   }
 
   const setCursor = (cursor) => {
-    let x = mainEl.querySelectorAll("*");
+    let x = document.querySelectorAll("*");
     for (var i = 0; i < x.length; i++) {
         x[i].style.cursor = cursor;
     }
   }
 
-//   const SLIDE_BUTTON_TYPE = Object.freeze({
-//     SUMMARY: Symbol("summary"),
-//     SESSION: Symbol("sessions"),
-//     WARNINGS: Symbol("warnings"),
-//     SESSION_TASKS: Symbol("sessionTasks"),
-//     SESSION_CIRCLES: Symbol("sessionCircles"),
-//     SESSION_DATES: Symbol("sessionDates"),
-//     SAVE: Symbol("save")
-//   });
+  const slideButtonSuccessHandler = (results) => {
+    setCursor('default');
+    if (results) {
+        console.log('Results returned', results);
+    } else {
+        console.log('No Results returned from function');
+    }
+  }
 
-//   ui.createMenu('POC Plan Automation')
-//     .addItem('Duplicate Logo to other slides', 'copyLogoToAllSlides')
-//     .addItem('Remove Existing Logos from all Slides', 'removeLogosFromSlides')
-//     .addItem('Open POC Plan Generator', 'showSidebar')
-//     .addItem('Create Summary Slide', 'prepSummarySlide')
-//     .addItem('Create Session Slide', 'prepSessionSlide')
-//     .addItem('Create Docs, Links and Considerations', 'repalceDocsLinksAndWarnings')
-//     .addItem('Selection Illuminate', 'selectionIlluminate')
-//     .addItem('Select Session Tasks', 'selectSessionTaskShapes')
-//     .addItem('Select Session Circles', 'selectSessionCircleShapes')
-//     .addItem('Select Session Dates', 'selectSessionDateShapes')
-//     .addItem('Save copy of POC Plan', 'saveContentsToNewPresentation')
-//     .addItem('Remove All Slides', 'removeAllSlides')
-//     .addItem('Test', 'dialogTest')
-//     .addToUi();
+  const slideButtonFailureHandler = (error) => {
+    setCursor('default');
+    listDealsErrors = "ERROR: " + error.message;
+  }
 
   const slideButtonHandler = (button) => {
+    setCursor('wait');
     switch (button) {
         case SLIDE_BUTTON_TYPE.SUMMARY:
-            google.script.run.prepSummarySlide(dealDetails);
+            console.log('Summary button pressed');
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .prepSummarySlide(dealDetails);
             break;
         case SLIDE_BUTTON_TYPE.SESSION:
-            google.script.run.prepSessionSlide(dealDetails);
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .prepSessionSlide(dealDetails);
             break;
         case SLIDE_BUTTON_TYPE.WARNINGS:
-            google.script.run.replaceDocsLinksAndWarnings(dealDetails);
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .replaceDocsLinksAndWarnings(dealDetails);
             break;
         case SLIDE_BUTTON_TYPE.SESSION_TASKS:
-            google.script.run.selectSessionTaskShapes();
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .selectSessionTaskShapes();
             break;
         case SLIDE_BUTTON_TYPE.SESSION_CIRCLES:
-            google.script.run.selectSessionCircleShapes();
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .selectSessionCircleShapes();
             break;
         case SLIDE_BUTTON_TYPE.SESSION_DATES:
-            google.script.run.selectSessionDateShapes();
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .selectSessionDateShapes();
             break;
         case SLIDE_BUTTON_TYPE.SAVE:
-            google.script.run.saveContentsToNewPresentation(dealDetails);
+            google.script.run
+                .withSuccessHandler(slideButtonSuccessHandler)
+                .withFailureHandler(slideButtonFailureHandler)
+                .saveContentsToNewPresentation(dealDetails);
             break;
         
         default:
+            console.log('Invalid button type sent');
             break;
     }
   }
@@ -157,19 +170,14 @@
                         <p>Click "{retrieveDealsLabel}"</p>
                     </div>
                 {:else}
-                    {#each allDeals as deal}
-                        <div>
-                            <input 
-                                id={getInputId(deal.hubSpotDealID)}
-                                type=radio
-                                bind:group={dealGroupName}
-                                name='deal'
-                                value={deal.hubSpotDealID}>
-                            <label 
-                                for={getInputId(deal.hubSpotDealID)}>{deal.companyName}</label>
-                            <br/>
-                        </div>
-                    {/each}
+                    <AutoComplete
+                        items={allDeals}
+                        name={dealGroupName}
+                        bind:selectedItem={selectedDealObject}
+                        bind:value={selectedDealId}
+                        labelFieldName="companyName"
+                        valueFieldName="hubSpotDealID"
+                        keywordsFunction={deal => deal.companyName + ' ' + deal.hobSpotDealName} />
                 {/if}
         </fieldset>
         <br/>
@@ -184,35 +192,28 @@
         {/if}
     </div>
     {#if dealDetails?.hobSpotDealName}
-    <fieldset>
-        <legend>Deal:</legend>
-        <div>
-            <p>{dealDetails.hobSpotDealName}</p>
-        </div>
-    </fieldset>
-    <!-- svelte-ignore missing-declaration -->
-    <button on:click={slideButtonHandler(SLIDE_BUTTON_TYPE.SUMMARY)}>Create Summary Slide</button>
-    <button >Create Session Slide</button>
-    <button >Select Session Tasks</button>
-    <button >Select Session Circles</button>
-    <button >Select Session Dates</button>
-    <button >Create Docs, Links and Considerations Slides</button>
-    <button on:click={isReadyToSave = !isReadyToSave}>Ready to Save!</button>
-    {#if isReadyToSave}
-        <div>
-            <input id="companySaveNameInput" type="text" bind:value={companySaveName}>
-            <label for="companySaveNameInput">Company Name</label>
-        </div>
-        <button disabled={!isReadyToSave}>Save copy of POC Plan</button>
+        <fieldset>
+            <legend>Deal:</legend>
+            <div>
+                <p>{dealDetails.hobSpotDealName}</p>
+            </div>
+        </fieldset>
+        <!-- svelte-ignore missing-declaration -->
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SUMMARY)}>Create Summary Slide</button>
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION)}>Create Session Slide</button>
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION_TASKS)}>Select Session Tasks</button>
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION_CIRCLES)}>Select Session Circles</button>
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION_DATES)}>Select Session Dates</button>
+        <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.WARNINGS)}>Create Docs, Links and Considerations Slides</button>
+        <button on:click|trusted={()=>isReadyToSave = !isReadyToSave}>Ready to Save!</button>
+        {#if isReadyToSave}
+            <div>
+                <label for="companySaveNameInput">Company Name to save plan</label><br/>
+                <input id="companySaveNameInput" type="text" bind:value={companySaveName}>
+            </div>
+            <button disabled={!isReadyToSave} on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SAVE)}>Save copy of POC Plan</button>
+        {/if}
     {/if}
-    
-    {/if}
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <input type="button" value="Close" onclick="google.script.host.close()" />
 
 </main>
 

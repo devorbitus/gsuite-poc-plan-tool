@@ -99,29 +99,386 @@ const POC_PLAN_SHARED_FOLDER_ID = "1cMWlKWbxaPWMs2WWtDkcLdh5HjB8-SJJ";
 const POC_PLAN_BLANK_TEMPLATE_WITH_LAYOUT = "1YT64KHQL8KPFp8DT2m1ze_ucGa5uS8Z42_DR_nRqTho";
 
 const LOGISTICS_PAGE_OBJECT = {
-  "title": "Logistics & Tips",
-  "logisticsItems": [
-    {
-      "item": "1. MNDA",
-      "subItem": ""
+    "title": "Logistics & Tips",
+    "logisticsItems": [
+        {
+            "item": "1. MNDA",
+            "subItem": ""
+        },
+        {
+            "item": "2. Gather the Team",
+            "subItem": "Gather your A team to participate in the sessions"
+        },
+        {
+            "item": "3. Questions during the pilot period",
+            "subItem": "Recommended using a dedicated Slack channel - we can all collaborate."
+        },
+        {
+            "item": "4. Let’s record the POC sessions",
+            "subItem": "To make sure that everyone is aligned"
+        },
+        {
+            "item": "5. Commercial discussion",
+            "subItem": "In parallel (number of Clients, SLA - TBD)"
+        },
+    ]
+};
+
+let objBackup = {
+    "companyName": "Kaiser Permanente",
+    "hobSpotDealName": "Kaiser Permanente - SM +SRA [vs. CyberArk, Conjur]",
+    "hubSpotDealID": "11062633472",
+    "hubspotCompanyId": "9937876746",
+    "realHubSpotDealId": "9469601394",
+    "realHubspotCompanyId": "6611446931",
+    "daysPerWeek": 1,
+    "akeylessDeploymentLocation": [
+        "cloud-vm"
+    ],
+    "hasOutgoingProxy": "no-proxy",
+    "useSlack": "no-slack-by-choice",
+    "identityProviderSsoInclude": "true",
+    "identityProviderSsoQuestion": [
+        "Ping (SAML)"
+    ],
+    "identityProviderSsoPriority": "must",
+    "workloadIdentitiesInclude": "true",
+    "workloadIdentitiesQuestion": [
+        "Azure AD",
+        "Universal Identity"
+    ],
+    "workloadIdentitiesPriority": "must",
+    "orchestrationPlatformsInclude": "true",
+    "orchestrationPlatformsQuestion": [
+        "OpenShift"
+    ],
+    "orchestrationPlatformsPriority": "nth",
+    "ciCdIntegrationInclude": "true",
+    "ciCdIntegrationQuestion": [
+        "Jenkins", 
+        "GitHub Actions"
+    ],
+    "ciCdIntegrationPriority": "must",
+    "dynamicRotatedSecretsInclude": "true",
+    "dynamicRotatedSecretsQuestion": [
+        "Snowflake Dynamic Secret", 
+        "Rotated Secrets", 
+        "Azure AD Dynamic Secrets", 
+        "Docker Hub Dynamic Secret", 
+        "GitHub Dynamic Secret"
+    ],
+    "dynamicRotatedSecretsPriority": "must",
+    "keyManagementSystemsInclude": "true",
+    "keyManagementSystemsQuestion": [
+        "Lifecycle Policies", 
+        "Key generation / rotation", 
+        "SSH Certificates", 
+        "Customer Fragment"
+    ],
+    "keyManagementSystemsPriority": "must",
+    "secretsMigrationInclude": "false",
+    "secretsMigrationQuestion": [
+    ],
+    "secretsMigrationPriority": "",
+    "infrastructureAsCodeConfigManagementInclude": "false",
+    "infrastructureAsCodeConfigManagementQuestion": [
+    ],
+    "infrastructureAsCodeConfigManagementPriority": "",
+    "secureRemoteAccessInclude": "true",
+    "secureRemoteAccessQuestion": [
+        "Rotated Secrets", 
+        "SSH Access", 
+        "Remote Desktop Protocol"
+    ],
+    "secureRemoteAccessPriority": "must",
+    "dataProtectionInclude": "true",
+    "dataProtectionQuestion": [
+        "Encryption as a Service", 
+        "Azure KMS"
+    ],
+    "dataProtectionPriority": "nth",
+    "logForwardingInclude": "false",
+    "logForwardingQuestion": [
+    ],
+    "logForwardingPriority": "must",
+    "startingPOCwindowDate": "2022-10-17",
+    "endingPOCwindowDate": "2022-10-31",
+    "akeylessContacts": [
+        "chris.g@akeyless.io",
+        "kenny.p@akeyless.io"
+    ],
+    "customersPrimaryTimeZone": "America/New_York",
+    "createSessions": [{
+        "sessExpr": "POC Session #1",
+        "sessionNumber": 1,
+        "identityProviderSso": [
+            "Ping (SAML)"
+        ],
+        "workloadIdentities": [
+            "none"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "none"
+        ],
+        "dynamicRotatedSecrets": [
+            "none"
+        ],
+        "keyManagementSystems": [
+            "none"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "none"
+        ],
+        "dataProtection": [
+            "none"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-17",
+        "sessionTime": "2022-10-17 0900-1030",
+        "sesionStartTime": "2022-10-17T09:00:00.000-04:00",
+        "sesionEndTime": "2022-10-17T10:30:00.000-04:00"
     },
     {
-      "item": "2. Gather the Team",
-      "subItem": "Gather your A team to participate in the sessions"
+        "sessExpr": "POC Session #2",
+        "sessionNumber": 2,
+        "identityProviderSso": [
+            "none"
+        ],
+        "workloadIdentities": [
+            "Azure AD",
+            "Universal Identity"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "none"
+        ],
+        "dynamicRotatedSecrets": [
+            "Snowflake Dynamic Secret",
+            "Rotated Secrets"
+        ],
+        "keyManagementSystems": [
+            "none"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "none"
+        ],
+        "dataProtection": [
+            "none"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-18",
+        "sessionTime": "2022-10-18 1300-1430",
+        "sesionStartTime": "2022-10-18T13:00:00.000-04:00",
+        "sesionEndTime": "2022-10-18T14:30:00.000-04:00"
     },
     {
-      "item": "3. Questions during the pilot period",
-      "subItem": "Recommended using a dedicated Slack channel - we can all collaborate."
+        "sessExpr": "POC Session #3",
+        "sessionNumber": 3,
+        "identityProviderSso": [
+            "none"
+        ],
+        "workloadIdentities": [
+            "none"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "GitHub Actions"
+        ],
+        "dynamicRotatedSecrets": [
+            "Azure AD Dynamic Secrets",
+            "Docker Hub Dynamic Secret",
+        ],
+        "keyManagementSystems": [
+            "Lifecycle Policies", 
+            "Key generation / rotation"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "none"
+        ],
+        "dataProtection": [
+            "none"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-20",
+        "sessionTime": "2022-10-20 1100-1230",
+        "sesionStartTime": "2022-10-20T09:00:00.000-04:00",
+        "sesionEndTime": "2022-10-20T10:30:00.000-04:00"
     },
     {
-      "item": "4. Let’s record the POC sessions",
-      "subItem": "To make sure that everyone is aligned"
+        "sessExpr": "POC Session #4",
+        "sessionNumber": 4,
+        "identityProviderSso": [
+            "none"
+        ],
+        "workloadIdentities": [
+            "none"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "Jenkins"
+        ],
+        "dynamicRotatedSecrets": [
+            "GitHub Dynamic Secret"
+        ],
+        "keyManagementSystems": [
+            "SSH Certificates", 
+            "Customer Fragment"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "none"
+        ],
+        "dataProtection": [
+            "none"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-24",
+        "sessionTime": "2022-10-24 1100-1230",
+        "sesionStartTime": "2022-10-24T09:00:00.000-04:00",
+        "sesionEndTime": "2022-10-24T10:30:00.000-04:00"
     },
     {
-      "item": "5. Commercial discussion",
-      "subItem": "In parallel (number of Clients, SLA - TBD)"
+        "sessExpr": "POC Session #5",
+        "sessionNumber": 5,
+        "identityProviderSso": [
+            "none"
+        ],
+        "workloadIdentities": [
+            "none"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "none"
+        ],
+        "dynamicRotatedSecrets": [
+            "none"
+        ],
+        "keyManagementSystems": [
+            "none"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "Rotated Secrets", 
+            "SSH Access", 
+            "Remote Desktop Protocol"
+        ],
+        "dataProtection": [
+            "none"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-25",
+        "sessionTime": "2022-10-25 1100-1230",
+        "sesionStartTime": "2022-10-25T09:00:00.000-04:00",
+        "sesionEndTime": "2022-10-25T10:30:00.000-04:00"
     },
-  ]
+    {
+        "sessExpr": "POC Session #6",
+        "sessionNumber": 6,
+        "identityProviderSso": [
+            "none"
+        ],
+        "workloadIdentities": [
+            "none"
+        ],
+        "orchestrationPlatforms": [
+            "none"
+        ],
+        "ciCdIntegration": [
+            "none"
+        ],
+        "dynamicRotatedSecrets": [
+            "none"
+        ],
+        "keyManagementSystems": [
+            "none"
+        ],
+        "secretsMigration": [
+            "none"
+        ],
+        "infrastructureAsCodeConfigManagement": [
+            "none"
+        ],
+        "secureRemoteAccess": [
+            "none"
+        ],
+        "dataProtection": [
+            "Encryption as a Service", 
+            "Azure KMS"
+        ],
+        "logForwarding": [
+            "none"
+        ],
+        "sessionDate": "2022-10-27",
+        "sessionTime": "2022-10-27 1000-1100",
+        "sesionStartTime": "2022-10-27T10:00:00.000-04:00",
+        "sesionEndTime": "2022-10-27T11:00:00.000-04:00"
+    }
+    ],
+    "currentMaxSessionDate": "2022-10-27",
+    "numberOfSessions": 6,
+    "suppressSessionDateOnPlan": true,
+    "isMndaSigned": true,
+    "totalPOCselections": {
+        "identityProviderSso": {
+            "Total Selected": 1,
+            "Total Scheduled": 1,
+            "Total Yet to be Scheduled": 0
+        },
+        "workloadIdentities": {
+            "Total Selected": 0,
+            "Total Scheduled": 0,
+            "Total Yet to be Scheduled": 0
+        }
+    }
 };
 
 /**
@@ -144,23 +501,13 @@ const LOGISTICS_PAGE_OBJECT = {
  *     running in, inspect e.authMode.
  */
 const onOpen = (e) => {
-  // DocumentApp.getUi().createAddonMenu()
-  //   .addItem(ADDON_NAME, "showSidebar")
-  //   .addToUi();
-  let ui = SlidesApp.getUi();
-  ui.createMenu('POC Plan Automation')
+    let ui = SlidesApp.getUi();
+    ui.createMenu('POC Plan Automation')
+    .addItem('Open POC Plan Generator', 'showSidebar')
     .addItem('Duplicate Logo to other slides', 'copyLogoToAllSlides')
     .addItem('Remove Existing Logos from all Slides', 'removeLogosFromSlides')
-    .addItem('Open POC Plan Generator', 'showSidebar')
-    // .addItem('Create Summary Slide', 'prepSummarySlide')
-    // .addItem('Create Session Slide', 'prepSessionSlide')
-    // .addItem('Create Docs, Links and Considerations', 'repalceDocsLinksAndWarnings')
-    // .addItem('Selection Illuminate', 'selectionIlluminate')
-    // .addItem('Select Session Tasks', 'selectSessionTaskShapes')
-    // .addItem('Select Session Circles', 'selectSessionCircleShapes')
-    // .addItem('Select Session Dates', 'selectSessionDateShapes')
-    // .addItem('Save copy of POC Plan', 'saveContentsToNewPresentation')
     .addItem('Remove All Slides', 'removeAllSlides')
+    .addItem('Test', 'prepSessionTextObjects')
     .addToUi();
 }
 
@@ -176,7 +523,7 @@ const onOpen = (e) => {
  *     AuthMode.NONE.)
  */
 const onInstall = (e) => {
-  onOpen(e);
+    onOpen(e);
 }
 
 /**
@@ -185,10 +532,8 @@ const onInstall = (e) => {
  * the mobile add-on version.
  */
 const showSidebar = () => {
-  // const ui = HtmlService.createTemplateFromFile('src/sidebar').evaluate().setTitle(ADDON_NAME);
-  // DocumentApp.getUi().showSidebar(ui);
-  var html = HtmlService.createTemplateFromFile('src/sidebar').evaluate().setTitle(ADDON_NAME).setWidth(300);
-  SlidesApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+    var html = HtmlService.createTemplateFromFile('src/sidebar').evaluate().setTitle(ADDON_NAME).setWidth(400);
+    SlidesApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
     .showSidebar(html);
 }
 
@@ -199,9 +544,9 @@ const showSidebar = () => {
 const include = (filename: string) => HtmlService.createHtmlOutputFromFile(filename).getContent();
 
 const getEmail = () => {
-  const userEmail = Session.getActiveUser().getEmail();
-  Logger.log(`userEmail ${userEmail}`);
-  return userEmail;
+    const userEmail = Session.getActiveUser().getEmail();
+    Logger.log(`userEmail ${userEmail}`);
+    return userEmail;
 }
 
 const getScriptProperty = (propertyName: string) => {
@@ -217,17 +562,17 @@ const getScriptProperty = (propertyName: string) => {
 }
 
 const getDeals = () => {
-  const POC_PLAN_REGISTRY_LIST_URL:string | null = getScriptProperty('POC_PLAN_REGISTRY_LIST_URL');
-  if (POC_PLAN_REGISTRY_LIST_URL) {
-    const response = fetchData(POC_PLAN_REGISTRY_LIST_URL);
-    const dealsListString = response.getContentText();
-    Logger.log(dealsListString);
-    const dealsList = JSON.parse(dealsListString);
-    return dealsList;
-  } else {
-    Logger.log('Unable to retrieve POC_PLAN_REGISTRY_LIST_URL from script properties');
-    return [];
-  }
+    const POC_PLAN_REGISTRY_LIST_URL:string | null = getScriptProperty('POC_PLAN_REGISTRY_LIST_URL');
+    if (POC_PLAN_REGISTRY_LIST_URL) {
+        const response = fetchData(POC_PLAN_REGISTRY_LIST_URL);
+        const dealsListString = response.getContentText();
+        Logger.log(dealsListString);
+        const dealsList = JSON.parse(dealsListString);
+        return dealsList;
+    } else {
+        Logger.log('Unable to retrieve POC_PLAN_REGISTRY_LIST_URL from script properties');
+        return [];
+    }
 }
 
 interface DealRequest {
@@ -249,23 +594,23 @@ const getDeal = (dealId: string) => {
 }
 
 const fetchData = (url:string, payload?:DealRequest, additionalOptions:any = null) => {
-  let headers:GoogleAppsScript.URL_Fetch.HttpHeaders = {
-    accept: 'application/json'
-  };
-  let options:GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
-    'method' : 'post',
-    headers
-  };
-  if (payload) {
-    options.payload = JSON.stringify(payload);
-    headers.contentType = 'application/json';
-  }
-  if (additionalOptions) {
-    Object.assign(options, additionalOptions);
-  }
-  
-  let response = UrlFetchApp.fetch(url, options);
-  return response;
+    let headers:GoogleAppsScript.URL_Fetch.HttpHeaders = {
+        accept: 'application/json'
+    };
+    let options:GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
+        'method' : 'post',
+        headers
+    };
+    if (payload) {
+        options.payload = JSON.stringify(payload);
+        headers.contentType = 'application/json';
+    }
+    if (additionalOptions) {
+        Object.assign(options, additionalOptions);
+    }
+
+    let response = UrlFetchApp.fetch(url, options);
+    return response;
 }
 
 const htmlDialog = (title, htmlMessage, height = 250, width = 350) => {
@@ -286,100 +631,100 @@ function onlyUnique(value, index, self) {
 
 function getReferenceSheetValues() {
     const sheets = SpreadsheetApp.openById(SHEET_DATA_WORKSHEET_ID);
-  
+
     // Get the sheet by its name
     const sheet = sheets.getSheetByName(GOOGLE_SHEET_REFERENCE_NAME);
-  
+
     // Get the range of data on the sheet
     const dataRange = sheet?.getDataRange();
-  
+
     // Get the values in the data range
     const sheetValues = dataRange?.getValues();
-  
+
     // Remove the header row
     sheetValues?.shift();
-  
+
     const sheetValuesAndSummary = {
-      referenceMatrix: sheetValues
+        referenceMatrix: sheetValues
     }
-  
+
     sheetValues?.forEach( (row) => {
-      const camelizedTopic = camalize_(row[0]);
-      const camelizedChoice = camalize_(row[1]);
-      const camelizedTopicAndChoice = camelizedTopic + "|" + camelizedChoice;
-      const fullTopicName = row[0];
-      const linkString = row[5];
-      const choice = row[1];
-      const warning = row[7];
-      const urls = linkString.split(" ");
-      const filteredUrls = urls.filter( (item) => item !== '');
-  
-      if (!sheetValuesAndSummary[camelizedTopic]) {
-        // topic is NOT already stored, creating object
-        sheetValuesAndSummary[camelizedTopic] = {
-          fullTopicName,
-          camelizedTopic,
+        const camelizedTopic = camalize_(row[0]);
+        const camelizedChoice = camalize_(row[1]);
+        const camelizedTopicAndChoice = camelizedTopic + "|" + camelizedChoice;
+        const fullTopicName = row[0];
+        const linkString = row[5];
+        const choice = row[1];
+        const warning = row[7];
+        const urls = linkString.split(" ");
+        const filteredUrls = urls.filter( (item) => item !== '');
+
+        if (!sheetValuesAndSummary[camelizedTopic]) {
+            // topic is NOT already stored, creating object
+            sheetValuesAndSummary[camelizedTopic] = {
+                fullTopicName,
+                camelizedTopic,
+            }
+            sheetValuesAndSummary[camelizedTopic][camelizedChoice] = {
+                camelizedTopicAndChoice,
+                choice,
+                camelizedChoice,
+                fullTopicName,
+                links: filteredUrls,
+                warningMessage: warning
+            }
+        } else {
+            sheetValuesAndSummary[camelizedTopic][camelizedChoice] = {
+                camelizedTopicAndChoice,
+                choice,
+                camelizedChoice,
+                fullTopicName,
+                links: filteredUrls,
+                warningMessage: warning
+            }
         }
-        sheetValuesAndSummary[camelizedTopic][camelizedChoice] = {
-          camelizedTopicAndChoice,
-          choice,
-          camelizedChoice,
-          fullTopicName,
-          links: filteredUrls,
-          warningMessage: warning
-        }
-      } else {
-        sheetValuesAndSummary[camelizedTopic][camelizedChoice] = {
-          camelizedTopicAndChoice,
-          choice,
-          camelizedChoice,
-          fullTopicName,
-          links: filteredUrls,
-          warningMessage: warning
-        }
-      }
     });
-  
+
     return sheetValuesAndSummary;
 }
 
 function cleanAndPrepareSessionObject(session) {
     for (const [key, value] of Object.entries(session)) {
-      if (Array.isArray(session[key])) {
-        const sessionArray: any[] = value as any[];
-        // clear out the empty arrays
-        const filteredList = sessionArray.filter( (value) => value !== EMPTY_SESSION_TOPIC);
-        if (sessionArray.length > filteredList.length) {
-          session[key] = filteredList;
+        if (Array.isArray(session[key])) {
+            const sessionArray: any[] = value as any[];
+            // clear out the empty arrays
+            const filteredList = sessionArray.filter( (value) => value !== EMPTY_SESSION_TOPIC);
+            if (sessionArray.length > filteredList.length) {
+                session[key] = filteredList;
+            }
+            if(filteredList.length > 0) {
+                if (!session["topicsToWork"]) {
+                    session["topicsToWork"] = [key]
+                } else {
+                    session["topicsToWork"].push(key);
+                }
+            }
         }
-        if(filteredList.length > 0) {
-          if (!session["topicsToWork"]) {
-            session["topicsToWork"] = [key]
-          } else {
-            session["topicsToWork"].push(key);
-          }
-        }
-      }
     }
     session.choices = {};
     session.topicsToWork.forEach( (topic) => {
-      const sessionChoices = [].concat(...session[topic]);
-      sessionChoices.forEach( (sessionChoice) => {
+        const sessionChoices = [].concat(...session[topic]);
+        sessionChoices.forEach( (sessionChoice) => {
         const camelizedChoice = camalize_(sessionChoice);
         if (session.choices[topic] && Array.isArray(session.choices[topic])) {
-          // choices array for topic already exists
-          session.choices[topic].push({
+            // choices array for topic already exists
+            session.choices[topic].push({
             sessionFullChoice: sessionChoice,
             camelizedChoice
-          });
+            });
         } else {
-          session.choices[topic] = [{
+            session.choices[topic] = [{
             sessionFullChoice: sessionChoice,
             camelizedChoice
-          }];
+            }];
         }
-      });
-      
+        });
+        
     });
     return session;
 }
@@ -394,14 +739,14 @@ function prepSession(inputObject) {
     const sessions: any[] = [];
     const topicsBeingWorked: any[] = [];
     obj.createSessions.forEach( (session) => {
-      const preppedSession = cleanAndPrepareSessionObject(session);
-      preppedSession?.topicsToWork?.forEach( (topic) => topicsBeingWorked.push(topic));
-      sessions.push(preppedSession);
+        const preppedSession = cleanAndPrepareSessionObject(session);
+        preppedSession?.topicsToWork?.forEach( (topic) => topicsBeingWorked.push(topic));
+        sessions.push(preppedSession);
     });
     const uniqueTopicsBeingWorked = topicsBeingWorked.filter(onlyUnique);
     return {
-      uniqueTopicsBeingWorked,
-      sessions
+        uniqueTopicsBeingWorked,
+        sessions
     }
 }
 
@@ -443,6 +788,13 @@ function alertOnMessages(msgs, buttons) {
     return SlidesApp.getUi().alert(msgs.join("\n"), buttons);
 }
 
+function prepSessionTextObjects() {
+    const { sessions } = prepSession(objBackup);
+    const sheetValues = prepSheetValues();
+    const sessionTextObjects = createSessionTextObjects(sessions, sheetValues);
+    return sessionTextObjects;
+  }
+
 function prepSummarySlide(inputObject) {
     const obj = inputObject;
     let msgs: any[] = [];
@@ -454,47 +806,47 @@ function prepSummarySlide(inputObject) {
     addHeaderToSlide_(slide, SUMMARY_SLIDE_TITLE);
 
     const table = slide.insertTable(SUMMARY_SLIDE_TABLE_DEFAULT_ROWS,
-      SUMMARY_SLIDE_TABLE_DEFAULT_COLUMNS);
+        SUMMARY_SLIDE_TABLE_DEFAULT_COLUMNS);
     table.setLeft(SUMMARY_SLIDE_TABLE_LEFT);
     table.setTop(SUMMARY_SLIDE_TABLE_TOP);
     const headerRow = table.getRow(SUMMARY_SLIDE_TABLE_HEADER_ROW_INDEX);
     const headerRowCells = headerRow.getNumCells();
     for (let i = 0; i < headerRowCells; i++) {
-      const headerRowCell = headerRow.getCell(i);
-      const headerRowCellFill = headerRowCell.getFill();
-      headerRowCellFill.setSolidFill(SUMMARY_SLIDE_TABLE_HEADER_ROW_COLOR);
-      const headerRowCellTextRange = headerRowCell.getText();
-      let headerRowCellTextRangeTextStyle;
-      switch (i) {
+        const headerRowCell = headerRow.getCell(i);
+        const headerRowCellFill = headerRowCell.getFill();
+        headerRowCellFill.setSolidFill(SUMMARY_SLIDE_TABLE_HEADER_ROW_COLOR);
+        const headerRowCellTextRange = headerRowCell.getText();
+        let headerRowCellTextRangeTextStyle;
+        switch (i) {
         case COLUMN_1_INDEX:
-          headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_1_TEXT);
-          headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
-          headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
-          headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-          headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
-          break;
+            headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_1_TEXT);
+            headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
+            headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
+            headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+            headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
+            break;
         case COLUMN_2_INDEX:
-          headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_2_TEXT);
-          headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
-          headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
-          headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-          headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
-          break;
+            headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_2_TEXT);
+            headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
+            headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
+            headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+            headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
+            break;
         case COLUMN_3_INDEX:
-          headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_3_TEXT);
-          headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
-          headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
-          headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-          headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
-          break;
-      }
+            headerRowCellTextRange.appendText(SUMMARY_SLIDE_TABLE_HEADER_COL_3_TEXT);
+            headerRowCellTextRangeTextStyle = headerRowCellTextRange.getTextStyle();
+            headerRowCellTextRangeTextStyle.setForegroundColor(standardColorObject.white);
+            headerRowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+            headerRowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_HEADER_FONT_SIZE);
+            break;
+        }
     }
-  
+
     // Skipping the header row, create all the other rows
     uniqueTopicsBeingWorked.forEach( (topic) => {
-      let sheetValueObject = sheetValues[topic];
-      const row = table.appendRow();
-      if (sheetValueObject) {
+        let sheetValueObject = sheetValues[topic];
+        const row = table.appendRow();
+        if (sheetValueObject) {
         const rowCells = row.getNumCells();
         let rowCellTextRange;
         // Get selected topics
@@ -505,79 +857,79 @@ function prepSummarySlide(inputObject) {
         let formattedPriority = "nth" === selectedPriority ? "NTH" : "Must";
         const joinedSelectedTopics = selectedTopics?.length > 0 ? selectedTopics?.join(", ") : "";
         for (let rowCellIndex = 0; rowCellIndex < rowCells; rowCellIndex++) {
-          const rowCell = row.getCell(rowCellIndex);
-          const rowCellFill = rowCell.getFill();
-          rowCellFill.setSolidFill(SUMMARY_SLIDE_TABLE_ROWS_COLOR);
-          rowCellTextRange = rowCell.getText();
-          let rowCellTextRangeTextStyle;
-          switch (rowCellIndex) {
+            const rowCell = row.getCell(rowCellIndex);
+            const rowCellFill = rowCell.getFill();
+            rowCellFill.setSolidFill(SUMMARY_SLIDE_TABLE_ROWS_COLOR);
+            rowCellTextRange = rowCell.getText();
+            let rowCellTextRangeTextStyle;
+            switch (rowCellIndex) {
             case COLUMN_1_INDEX:
-              rowCellTextRange.appendText(sheetValueObject.fullTopicName);
-              rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
-              rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
-              rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-              rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
-              break;
+                rowCellTextRange.appendText(sheetValueObject.fullTopicName);
+                rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
+                rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+                rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+                rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
+                break;
             case COLUMN_2_INDEX:
-              rowCellTextRange.appendText(joinedSelectedTopics);
-              rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
-              rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
-              rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-              rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
-              break;
+                rowCellTextRange.appendText(joinedSelectedTopics);
+                rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
+                rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+                rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+                rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
+                break;
             case COLUMN_3_INDEX:
-              rowCellTextRange.appendText(formattedPriority);
-              rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
-              rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
-              rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-              rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
-              break;
-          }
+                rowCellTextRange.appendText(formattedPriority);
+                rowCellTextRangeTextStyle = rowCellTextRange.getTextStyle();
+                rowCellTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+                rowCellTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+                rowCellTextRangeTextStyle.setFontSize(SUMMARY_SLIDE_TABLE_ROW_FONT_SIZE);
+                break;
+            }
         }
-      }
+        }
     });
-  
+
     var objectId = table.getObjectId();
     let rowCount = table.getNumRows();
     let tableRowProps:any = [];
     SlidesApp.getActivePresentation().saveAndClose();
     for (let i = 0; i < rowCount; i++) {
-      const theMagnitude = i == 0 ? 21.255905511811022 : 23.3248031496063;
-      tableRowProps.push(
+        const theMagnitude = i == 0 ? 21.255905511811022 : 23.3248031496063;
+        tableRowProps.push(
         {updateTableRowProperties: {tableRowProperties: 
-          {minRowHeight: {magnitude: theMagnitude, unit: "PT"}},
-          rowIndices: [i],
-          objectId: objectId,
-          fields: "minRowHeight"
+            {minRowHeight: {magnitude: theMagnitude, unit: "PT"}},
+            rowIndices: [i],
+            objectId: objectId,
+            fields: "minRowHeight"
         }}
-      )
+        )
     }
-  
+
     var resource = {requests: [
-      {updateTableColumnProperties: {tableColumnProperties: 
+        {updateTableColumnProperties: {tableColumnProperties: 
         {columnWidth: {magnitude: 197.75393700787401, unit: "PT"}},
         columnIndices: [0],
         objectId: objectId,
         fields: "columnWidth"
-      }},
-      {updateTableColumnProperties: {tableColumnProperties: 
+        }},
+        {updateTableColumnProperties: {tableColumnProperties: 
         {columnWidth: {magnitude: 401.38385826771656, unit: "PT"}},
         columnIndices: [1],
         objectId: objectId,
         fields: "columnWidth"
-      }},
-      {updateTableColumnProperties: {tableColumnProperties: 
+        }},
+        {updateTableColumnProperties: {tableColumnProperties: 
         {columnWidth: {magnitude: 82.16929133858268, unit: "PT"}},
         columnIndices: [2],
         objectId: objectId,
         fields: "columnWidth"
-      }},
-      ...tableRowProps
+        }},
+        ...tableRowProps
     ]};
     Slides?.Presentations?.batchUpdate(resource, presentation.getId());
-    
+
     if (msgs?.length) {
-      alertOnMessages(msgs, undefined);
+        alertOnMessages(msgs, undefined);
     }
 }
 
@@ -585,56 +937,56 @@ function populateSessionTextObjectsFromSession(session, sheetValues) {
     const sessionTextObjects: any[] = [];
     // work the session object
     session.topicsToWork.forEach( (topic) => {
-      const choicesThisSession = session.choices[topic];
-      const choices: any[] = [];
-      const links: any[] = [];
-      const warnings: any[] = [];
-      const topicObj = sheetValues[topic];
-      choicesThisSession.forEach( (sessionChoice) => {
+        const choicesThisSession = session.choices[topic];
+        const choices: any[] = [];
+        const links: any[] = [];
+        const warnings: any[] = [];
+        const topicObj = sheetValues[topic];
+        choicesThisSession.forEach( (sessionChoice) => {
         const choiceObj = topicObj?.[sessionChoice.camelizedChoice];
         if (choiceObj) {
-          // we have a choice object
-          choices.push(choiceObj.choice);
-          choiceObj.links.forEach( (link) => links.push(link));
-          if (choiceObj.warningMessage !== ''){
+            // we have a choice object
+            choices.push(choiceObj.choice);
+            choiceObj.links.forEach( (link) => links.push(link));
+            if (choiceObj.warningMessage !== ''){
             warnings.push(choiceObj.warningMessage.trim());
-          }
+            }
         } else {
-          // no choice object found (maybe custom choice)
-          choices.push(sessionChoice.sessionFullChoice);
+            // no choice object found (maybe custom choice)
+            choices.push(sessionChoice.sessionFullChoice);
         }
-      });
-      if (!topicObj?.fullTopicName) {
+        });
+        if (!topicObj?.fullTopicName) {
         Logger.log("Full topic name not found for topic : ", topic)
-      }
-      const title = `${topicObj?.fullTopicName} (${choices.join(", ")})`;
-      const sessionTextObject = {
+        }
+        const title = `${topicObj?.fullTopicName} (${choices.join(", ")})`;
+        const sessionTextObject = {
         title,
         topic: topicObj?.fullTopicName,
         choices: choices.join(", "),
         links,
         warnings
-      };
-      sessionTextObjects.push(sessionTextObject);
+        };
+        sessionTextObjects.push(sessionTextObject);
     })
     return sessionTextObjects;
-  }
+}
 
 function createGatewaySessionObject(session, sheetValues) {
     const sessionTextObjects = [{
-      title: SESSION_ONE_TITLE_ONE,
-      links: SESSION_ONE_TITLE_ONE_URLS,
-      warnings: SESSION_ONE_TITLE_ONE_WARNINGS
+        title: SESSION_ONE_TITLE_ONE,
+        links: SESSION_ONE_TITLE_ONE_URLS,
+        warnings: SESSION_ONE_TITLE_ONE_WARNINGS
     },{
-      title: SESSION_ONE_TITLE_TWO,
-      links: SESSION_ONE_TITLE_TWO_URLS,
-      warnings: SESSION_ONE_TITLE_TWO_WARNINGS
+        title: SESSION_ONE_TITLE_TWO,
+        links: SESSION_ONE_TITLE_TWO_URLS,
+        warnings: SESSION_ONE_TITLE_TWO_WARNINGS
     }];
     // gather text for body of slide
     const additionalSessionTextObjects = populateSessionTextObjectsFromSession(session, sheetValues);
     additionalSessionTextObjects.forEach( (item) => sessionTextObjects.push(item));
     return sessionTextObjects;
-  }
+}
 
 function createOtherSessionObjects(session, sheetValues) {
     // gather text for body of slide
@@ -645,18 +997,18 @@ function createOtherSessionObjects(session, sheetValues) {
 function createSessionTextObjects(sessions, sheetValues) {
     let sessionTextObjects: any[] = [];
     sessions.forEach( (session) => {
-      const sessionArray: any[] = [];
-      if (session.sessionNumber == 1) {
-        const sessionObjects = createGatewaySessionObject(session, sheetValues);
-        sessionObjects.forEach( (item) => sessionArray.push(item));
-      } else {
-        const sessionObjects = createOtherSessionObjects(session, sheetValues);
-        sessionObjects.forEach( (item) => sessionArray.push(item));
-      }
-      sessionTextObjects.push(sessionArray);
+        const sessionArray: any[] = [];
+        if (session.sessionNumber == 1) {
+            const sessionObjects = createGatewaySessionObject(session, sheetValues);
+            sessionObjects.forEach( (item) => sessionArray.push(item));
+        } else {
+            const sessionObjects = createOtherSessionObjects(session, sheetValues);
+            sessionObjects.forEach( (item) => sessionArray.push(item));
+        }
+        sessionTextObjects.push(sessionArray);
     })
     return sessionTextObjects;
-  }
+}
 
 function appendSessionTopicAndChoice(taskShapeTextRange, topic, choices) {
     // set topic
@@ -685,47 +1037,47 @@ function createSessionPlanShape(slide, shapeEnum, index, lastItemIndex) {
     let calculatedLeft;
     let needsContentAlignBottom = false;
     switch (shapeEnum){
-      case SESSION_PLAN_TYPE.TASK:
+        case SESSION_PLAN_TYPE.TASK:
         if (isLast) {
-          calculatedLeft = SESSION_PLAN_TASKS_LAST_LEFT;
+            calculatedLeft = SESSION_PLAN_TASKS_LAST_LEFT;
         } else {
-          calculatedLeft = SESSION_PLAN_TASKS_FIRST_LEFT + index;
+            calculatedLeft = SESSION_PLAN_TASKS_FIRST_LEFT + index;
         }
         taskShape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 
-          calculatedLeft, 
-          SESSION_PLAN_TASKS_TOP, 
-          SESSION_PLAN_TASKS_WIDTH, 
-          SESSION_PLAN_TASKS_HEIGHT);
+            calculatedLeft, 
+            SESSION_PLAN_TASKS_TOP, 
+            SESSION_PLAN_TASKS_WIDTH, 
+            SESSION_PLAN_TASKS_HEIGHT);
         needsContentAlignBottom = true;
         break;
-      case SESSION_PLAN_TYPE.SHAPE:
+        case SESSION_PLAN_TYPE.SHAPE:
         if (isLast) {
-          calculatedLeft = SESSION_PLAN_SHAPE_LAST_LEFT;
+            calculatedLeft = SESSION_PLAN_SHAPE_LAST_LEFT;
         } else {
-          calculatedLeft = SESSION_PLAN_SHAPE_FIRST_LEFT + index;
+            calculatedLeft = SESSION_PLAN_SHAPE_FIRST_LEFT + index;
         }
         taskShape = slide.insertShape(SlidesApp.ShapeType.ELLIPSE, 
-          calculatedLeft, 
-          SESSION_PLAN_SHAPE_TOP, 
-          SESSION_PLAN_SHAPE_WIDTH, 
-          SESSION_PLAN_SHAPE_HEIGHT);
+            calculatedLeft, 
+            SESSION_PLAN_SHAPE_TOP, 
+            SESSION_PLAN_SHAPE_WIDTH, 
+            SESSION_PLAN_SHAPE_HEIGHT);
         break;
-      case SESSION_PLAN_TYPE.DATE:
+        case SESSION_PLAN_TYPE.DATE:
         if (isLast) {
-          calculatedLeft = SESSION_PLAN_DATE_LAST_LEFT;
+            calculatedLeft = SESSION_PLAN_DATE_LAST_LEFT;
         } else {
-          calculatedLeft = SESSION_PLAN_DATE_FIRST_LEFT + index;
+            calculatedLeft = SESSION_PLAN_DATE_FIRST_LEFT + index;
         }
         taskShape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 
-          calculatedLeft, 
-          SESSION_PLAN_DATE_TOP, 
-          SESSION_PLAN_DATE_WIDTH, 
-          SESSION_PLAN_DATE_HEIGHT);
+            calculatedLeft, 
+            SESSION_PLAN_DATE_TOP, 
+            SESSION_PLAN_DATE_WIDTH, 
+            SESSION_PLAN_DATE_HEIGHT);
         taskShape.setContentAlignment(SlidesApp.ContentAlignment.TOP);
         break;
     }
     if (needsContentAlignBottom) {
-      taskShape.setContentAlignment(SlidesApp.ContentAlignment.BOTTOM);
+        taskShape.setContentAlignment(SlidesApp.ContentAlignment.BOTTOM);
     }
     return taskShape;
 }
@@ -757,22 +1109,22 @@ function prepSessionSlide(inputObject) {
         let taskShapeTextRange = taskShape.getText();
         
         if (isFirst) {
-        sessionTextObject = sessionTextObjectArray.pop();
-        const text = SESSION_PLAN_TASKS_GATEWAY_PREFIX + sessionTextObject.choices + CHAR_NEW_LINE;
-        taskShapeTextRange.appendText(text);
-        const taskShapeTextRangeParagraphStyle = taskShapeTextRange.getParagraphStyle();
-        taskShapeTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
-        const taskShapeTextRangeTextStyle = taskShapeTextRange.getTextStyle();
-        taskShapeTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
-        taskShapeTextRangeTextStyle.setFontSize(SESSION_PLAN_GATEWAY_FONT_SIZE);
-        taskShapeTextRangeTextStyle.setForegroundColor(standardColorObject.black);
+            sessionTextObject = sessionTextObjectArray.pop();
+            const text = SESSION_PLAN_TASKS_GATEWAY_PREFIX + sessionTextObject.choices + CHAR_NEW_LINE;
+            taskShapeTextRange.appendText(text);
+            const taskShapeTextRangeParagraphStyle = taskShapeTextRange.getParagraphStyle();
+            taskShapeTextRangeParagraphStyle.setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+            const taskShapeTextRangeTextStyle = taskShapeTextRange.getTextStyle();
+            taskShapeTextRangeTextStyle.setFontFamily(HEADER_FONT_FAMILY);
+            taskShapeTextRangeTextStyle.setFontSize(SESSION_PLAN_GATEWAY_FONT_SIZE);
+            taskShapeTextRangeTextStyle.setForegroundColor(standardColorObject.black);
         } else {
-        sessionTextObjectArray.forEach( (sessionTextObject) => {
-            appendSessionTopicAndChoice(taskShapeTextRange, sessionTextObject.topic, sessionTextObject.choices);
-        });
+            sessionTextObjectArray.forEach( (sessionTextObject) => {
+                appendSessionTopicAndChoice(taskShapeTextRange, sessionTextObject.topic, sessionTextObject.choices);
+            });
         }
         if (isLast) {
-        appendSessionTopicAndChoice(taskShapeTextRange, SESSION_PLAN_SUMMARY_POSTFIX_TOPIC, SESSION_PLAN_SUMMARY_POSTFIX_CHOICES);
+            appendSessionTopicAndChoice(taskShapeTextRange, SESSION_PLAN_SUMMARY_POSTFIX_TOPIC, SESSION_PLAN_SUMMARY_POSTFIX_CHOICES);
         }
         taskShapeIDs.push(taskShape.getObjectId());
 
@@ -805,13 +1157,13 @@ function prepSessionSlide(inputObject) {
         let sessionDayOfWeek = "";
         let sessionShortDate = "";
         if (obj.suppressSessionDateOnPlan) {
-        sessionDayOfWeek = "TBD";
-        sessionShortDate = "-/-"
+            sessionDayOfWeek = "TBD";
+            sessionShortDate = "-/-"
         } else {
-        const sessionDate = new Date(session.sessionDate);
-        let dayName = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format;
-        sessionDayOfWeek = dayName(sessionDate);
-        sessionShortDate = new Date().toLocaleDateString('en-US', {month: 'numeric', day: 'numeric'});
+            const sessionDate = new Date(session.sessionDate);
+            let dayName = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format;
+            sessionDayOfWeek = dayName(sessionDate);
+            sessionShortDate = new Date().toLocaleDateString('en-US', {month: 'numeric', day: 'numeric'});
         }
         const dateDaysDateShapeTextRange = dateShapeTextRange.appendText(sessionDayOfWeek);
         const dateDaysDateShapeTextRangeTextStyle = dateDaysDateShapeTextRange.getTextStyle();
@@ -849,7 +1201,7 @@ function populateLogisticsSlideBody(shape, logisticsObject, isMndaSigned) {
     const textRange = shape.getText();
 
     logisticsObject.logisticsItems.forEach( (logisticsItem, index) => {
-        const itemText = `${logisticsItem.item}${index == 0 && logisticsItem.isMndaSigned ? MNDA_SIGNED_EMOJI : ''}`;
+        const itemText = `${logisticsItem.item}${index == 0 && isMndaSigned ? " " + MNDA_SIGNED_EMOJI : ''}`;
         const insertedText = textRange.appendText(itemText);
         const insertedTextStyle = insertedText.getTextStyle();
         insertedTextStyle.setFontFamily(BODY_FONT_FAMILY);
@@ -956,6 +1308,144 @@ function replaceDocsLinksAndWarnings(inputObject){
     if(msgs.length > 0){
         SlidesApp.getUi().alert(msgs.join("\n"));
     }
+}
+
+function selectSessionShapes(propertyKey) {
+    const presentation = SlidesApp.getActivePresentation();
+    const documentProperties = PropertiesService.getDocumentProperties();
+    const sessionSlideId = documentProperties.getProperty(SESSION_PLAN_PROPERTY_SLIDE_ID) || presentation.getSlides()[0].getObjectId();
+    const slide = presentation.getSlideById(sessionSlideId);
+    if (slide) {
+        slide.selectAsCurrentPage();
+        const shapeIdsJsonString = documentProperties.getProperty(propertyKey) || "[]";
+        const shapeIds = JSON.parse(shapeIdsJsonString);
+        shapeIds.forEach( (shapeId, index) => {
+        const pageElement = slide.getPageElementById(shapeId);
+        const shape = pageElement.asShape();
+        if (index == 0) {
+            shape.select()
+        } else {
+            shape.select(false);
+        }
+        });
+    } else {
+        SlidesApp.getUi().alert(`Stored Slide ID [${sessionSlideId}] no longer exists, please run the "Create Session Slide" command to generate a new one`);
+    }
+}
+
+function selectSessionTaskShapes() {
+    selectSessionShapes(SESSION_PLAN_PROPERTY_TASK_SHAPES_ID);
+}
+
+function selectSessionCircleShapes() {
+    selectSessionShapes(SESSION_PLAN_PROPERTY_CIRCLE_SHAPES_ID);
+}
+
+function selectSessionDateShapes() {
+    selectSessionShapes(SESSION_PLAN_PROPERTY_DATE_SHAPES_ID);
+}
+
+function saveContentsToNewPresentation(inputObject) {
+    const obj = inputObject;
+    const presentation = SlidesApp.getActivePresentation()
+    const templateSlides = presentation.getSlides();
+
+    const fileName = POC_FILE_NAME_PREFIX + obj.companyName;
+
+    const data = Drive.Files.copy({ parents: [{ id: POC_PLAN_SHARED_FOLDER_ID }], id: fileName }, POC_PLAN_BLANK_TEMPLATE_WITH_LAYOUT, {
+        supportsAllDrives: true,
+        fields: 'title,embedLink,id,selfLink',
+    }) && {id:'not_found', title:'not_found', embedLink: 'not_found'};
+    console.log('File Copied', data.title, data.embedLink, data.id);
+    let newDeck = SlidesApp.openById(data?.id);
+    newDeck.setName(fileName);
+    newDeck.saveAndClose();
+    newDeck = SlidesApp.openById(data.id);
+    const slides = newDeck.getSlides();
+    console.log('Number of slides created : ', slides.length);
+    const layouts = newDeck.getLayouts();
+    console.log('Number of layouts : ', layouts.length)
+    layouts.forEach( (layout) => {
+        const layoutName = layout.getLayoutName();
+        console.log("Layout Name : ", layoutName);
+    });
+    const layoutToUse = layouts.find( (layout) => layout.getLayoutName() == LAYOUT_TO_USE_ID) || layouts[0];
+    console.log('Layout to use : ', layoutToUse);
+
+    // Insert slides from template
+    let index = 0;
+    templateSlides.forEach( (slide) => {
+        var newSlide = newDeck.insertSlide(index, layoutToUse);
+        var elements = slide.getPageElements();
+        elements.forEach(function(element) {
+        newSlide.insertPageElement(element);
+        });
+        index++;
+    });
+
+    const akeylessContacts = obj?.akeylessContacts || [];
+    const currentUserEmail = getEmail();
+    const filteredAkeylessContacts = akeylessContacts.filter( (email) => email?.toLowerCase() !== currentUserEmail?.toLowerCase());
+    filteredAkeylessContacts.forEach( (email) => {
+        const permissionData = Drive.Permissions.insert({
+            'value': email,
+            'type': 'user',
+            'role': 'writer'
+        }, data.id, {
+            'sendNotificationEmails': false,
+            'supportsAllDrives': true
+        });
+        console.log(`Write permission created for email : ${email} for Google Drive ID : ${permissionData.id}`);
+    });
+
+    const htmlMessage = `Edit permissions have been granted to email addresses:<br><br>${filteredAkeylessContacts.join('<br>')}<br><br><a href="${newDeck.getUrl()}" target="_blank">Click here to open the new presentation</a>`;
+    const title = "Link to Presentation";
+    htmlDialog(title, htmlMessage);
+}
+
+function removeAllSlides() {
+    var presentation = SlidesApp.getActivePresentation();
+    var slides = presentation.getSlides();
+    slides.forEach( (slide) => {
+        slide.remove();
+    });
+    SlidesApp.getActivePresentation().saveAndClose();
+}
+
+function copyLogoToAllSlides() {
+    var presentation = SlidesApp.getActivePresentation();
+    var slides = presentation.getSlides();
+    var counter = 0;
+    var slideCount = slides.length - 1 || 0;
+    var images = slides[0].getImages();
+    var logoImage = images[0];
+    slides.forEach(slide => {
+        if (counter == 0){
+        console.log('First slide done');
+        } else {
+        slide.refreshSlide();
+        slide.insertImage(logoImage);
+        slide.refreshSlide();
+        console.log(`Slide counter ${counter} out of ${slideCount} complete`);
+        }
+        counter++;
+    });
+}
+
+function removeLogosFromSlides() {
+    var presentation = SlidesApp.getActivePresentation();
+    var slides = presentation.getSlides();
+    var counter = 1;
+    slides.forEach(slide => {
+        var imageCounter = 1;
+        slide.getImages().forEach(img => {
+        img.remove();
+        console.log(`Removing image # ${imageCounter} from slide # ${counter}`)
+        imageCounter++;
+        });
+        console.log(`Done with Slide # ${counter}`)
+        counter++;
+    });
 }
 
 const standardColorObject = {
