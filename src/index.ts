@@ -993,15 +993,18 @@ function saveContentsToNewPresentation(fileName: string, inputObject) {
     const presentation = SlidesApp.getActivePresentation()
     const templateSlides = presentation.getSlides();
 
-    const data = Drive.Files.copy({ parents: [{ id: POC_PLAN_SHARED_FOLDER_ID }], fileName }, POC_PLAN_BLANK_TEMPLATE_WITH_LAYOUT, {
-        supportsAllDrives: true,
-        fields: 'title,embedLink,id,selfLink',
-    });
-    console.log('File Copied', data.title, data.embedLink, data.id);
-    let newDeck = SlidesApp.openById(data.id);
+    const templateFile = DriveApp.getFileById(POC_PLAN_BLANK_TEMPLATE_WITH_LAYOUT);
+
+    const sharedFolder = DriveApp.getFolderById(POC_PLAN_SHARED_FOLDER_ID);
+
+    const newDeckFile = templateFile.makeCopy(sharedFolder);
+
+    const newDeckFileId = newDeckFile.getId();
+
+    let newDeck = SlidesApp.openById(newDeckFileId);
     newDeck.setName(fileName);
     newDeck.saveAndClose();
-    newDeck = SlidesApp.openById(data.id);
+    newDeck = SlidesApp.openById(newDeckFileId);
     const slides = newDeck.getSlides();
     console.log('Number of slides created : ', slides.length);
     const layouts = newDeck.getLayouts();
@@ -1032,7 +1035,7 @@ function saveContentsToNewPresentation(fileName: string, inputObject) {
             'value': email,
             'type': 'user',
             'role': 'writer'
-        }, data.id, {
+        }, newDeckFileId, {
             'sendNotificationEmails': false,
             'supportsAllDrives': true
         });
