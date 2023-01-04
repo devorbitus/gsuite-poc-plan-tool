@@ -149,7 +149,7 @@
             google.script.run
                 .withSuccessHandler(slideButtonSuccessHandler)
                 .withFailureHandler(slideButtonFailureHandler)
-                .saveContentsToNewPresentation(fullFileName);
+                .saveContentsToNewPresentation(fullFileName, dealDetails);
             break;
         
         default:

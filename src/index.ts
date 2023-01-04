@@ -988,7 +988,8 @@ function selectSessionDateShapes() {
     selectSessionShapes(SESSION_PLAN_PROPERTY_DATE_SHAPES_ID);
 }
 
-function saveContentsToNewPresentation(fileName) {
+function saveContentsToNewPresentation(fileName: string, inputObject) {
+    const obj = inputObject;
     const presentation = SlidesApp.getActivePresentation()
     const templateSlides = presentation.getSlides();
 
