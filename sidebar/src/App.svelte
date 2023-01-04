@@ -16,6 +16,8 @@
   let isReadyToSave = false;
 
   const POC_FILE_NAME_PREFIX = "Akeyless Vault Platform - POC Plan - ";
+
+  $: fullFileName = POC_FILE_NAME_PREFIX + companySaveName;
   
   const getInputId = (inputValue) => {
     return `input_${inputValue}`;
@@ -143,10 +145,11 @@
                 .selectSessionDateShapes();
             break;
         case SLIDE_BUTTON_TYPE.SAVE:
+            console.log('Fulle File Name to Save : ', fullFileName);
             google.script.run
                 .withSuccessHandler(slideButtonSuccessHandler)
                 .withFailureHandler(slideButtonFailureHandler)
-                .saveContentsToNewPresentation(dealDetails);
+                .saveContentsToNewPresentation(fullFileName);
             break;
         
         default:

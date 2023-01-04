@@ -988,12 +988,9 @@ function selectSessionDateShapes() {
     selectSessionShapes(SESSION_PLAN_PROPERTY_DATE_SHAPES_ID);
 }
 
-function saveContentsToNewPresentation(inputObject) {
-    const obj = inputObject;
+function saveContentsToNewPresentation(fileName) {
     const presentation = SlidesApp.getActivePresentation()
     const templateSlides = presentation.getSlides();
-
-    const fileName = POC_FILE_NAME_PREFIX + obj.companyName;
 
     const data = Drive.Files.copy({ parents: [{ id: POC_PLAN_SHARED_FOLDER_ID }], fileName }, POC_PLAN_BLANK_TEMPLATE_WITH_LAYOUT, {
         supportsAllDrives: true,
