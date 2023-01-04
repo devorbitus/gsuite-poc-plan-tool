@@ -145,7 +145,7 @@
                 .selectSessionDateShapes();
             break;
         case SLIDE_BUTTON_TYPE.SAVE:
-            console.log('Fulle File Name to Save : ', fullFileName);
+            console.log('Full File Name to Save : ', fullFileName);
             google.script.run
                 .withSuccessHandler(slideButtonSuccessHandler)
                 .withFailureHandler(slideButtonFailureHandler)
