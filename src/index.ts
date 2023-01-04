@@ -1,4 +1,4 @@
-
+import plur from 'plur';
 const ADDON_NAME = "POC Plan Generator";
 const LAYOUT_TO_USE_ID = "3_Title and Content_1";
 const HEADER_LEFT = 26.127243307086616;
@@ -1030,17 +1030,9 @@ function saveContentsToNewPresentation(fileName: string, inputObject) {
     const akeylessContacts = obj?.akeylessContacts || [];
     const currentUserEmail = getEmail();
     const filteredAkeylessContacts = akeylessContacts.filter( (email) => email?.toLowerCase() !== currentUserEmail?.toLowerCase());
-    filteredAkeylessContacts.forEach( (email) => {
-        const permissionData = Drive.Permissions.insert({
-            'value': email,
-            'type': 'user',
-            'role': 'writer'
-        }, newDeckFileId, {
-            'sendNotificationEmails': false,
-            'supportsAllDrives': true
-        });
-        console.log(`Write permission created for email : ${email} for Google Drive ID : ${permissionData.id}`);
-    });
+    if (filteredAkeylessContacts.length) {
+        newDeckFile.addEditors(filteredAkeylessContacts);
+    }
 
     const htmlMessage = `Edit permissions have been granted to email addresses:<br><br>${filteredAkeylessContacts.join('<br>')}<br><br><a href="${newDeck.getUrl()}" target="_blank">Click here to open the new presentation</a>`;
     const title = "Link to Presentation";
