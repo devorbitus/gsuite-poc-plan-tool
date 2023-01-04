@@ -208,7 +208,7 @@
         <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION_CIRCLES)}>Select Session Circles</button>
         <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.SESSION_DATES)}>Select Session Dates</button>
         <button on:click|trusted={()=>slideButtonHandler(SLIDE_BUTTON_TYPE.WARNINGS)}>Create Docs, Links and Considerations Slides</button>
-        <button on:click|trusted={()=>isReadyToSave = !isReadyToSave}>Ready to Save!</button>
+        <button on:click|trusted={()=>isReadyToSave = !isReadyToSave}>{#if isReadyToSave}Not Ready to Save!{:else}Ready to Save!{/if}</button>
         {#if isReadyToSave}
             <div>
                 <label for="companySaveNameInput">Company Name to save plan</label><br/>
