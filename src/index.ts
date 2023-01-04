@@ -1,4 +1,4 @@
-import plur from 'plur';
+
 const ADDON_NAME = "POC Plan Generator";
 const LAYOUT_TO_USE_ID = "3_Title and Content_1";
 const HEADER_LEFT = 26.127243307086616;
