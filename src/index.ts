@@ -222,16 +222,38 @@ interface DealRequest {
     hubSpotDealID: string
 }
 
-const getDeal = (dealId: string) => {
-    const POC_PLAN_REGISTRY_GET_URL:string | null = getScriptProperty('POC_PLAN_REGISTRY_GET_URL');
-    if(POC_PLAN_REGISTRY_GET_URL) {
-        const response = fetchData(POC_PLAN_REGISTRY_GET_URL, {"hubSpotDealID": dealId});
+const processDeal = (dealId: string, urlKey: string) => {
+    const URL:string | null = getScriptProperty(urlKey);
+    if(URL) {
+        const response = fetchData(URL, {"hubSpotDealID": dealId});
         const dealsGetString = response.getContentText();
         Logger.log(dealsGetString);
         const dealObject = JSON.parse(dealsGetString);
         return dealObject;
     } else {
+        Logger.log(`Unable to retrieve ${urlKey} from script properties`);
+        return null;
+    }
+}
+
+const getDeal = (dealId: string) => {
+    const POC_PLAN_REGISTRY_GET_URL:string | null = getScriptProperty('POC_PLAN_REGISTRY_GET_URL');
+    if(POC_PLAN_REGISTRY_GET_URL) {
+        const dealObject = processDeal(dealId, POC_PLAN_REGISTRY_GET_URL);
+        return dealObject;
+    } else {
         Logger.log('Unable to retrieve POC_PLAN_REGISTRY_GET_URL from script properties');
+        return null;
+    }
+}
+
+const sendDealToProvarity = (dealId: string) => {
+    const POC_PLAN_PROVARITY_TRIGGER_URL:string | null = getScriptProperty('POC_PLAN_PROVARITY_TRIGGER_URL');
+    if(POC_PLAN_PROVARITY_TRIGGER_URL) {
+        const dealObject = processDeal(dealId, POC_PLAN_PROVARITY_TRIGGER_URL);
+        return dealObject;
+    } else {
+        Logger.log('Unable to retrieve POC_PLAN_PROVARITY_TRIGGER_URL from script properties');
         return null;
     }
 }
@@ -1037,6 +1059,7 @@ function saveContentsToNewPresentation(fileName: string, inputObject) {
     const htmlMessage = `Edit permissions have been granted to email addresses:<br><br>${filteredAkeylessContacts.join('<br>')}<br><br><a href="${newDeck.getUrl()}" target="_blank">Click here to open the new presentation</a>`;
     const title = "Link to Presentation";
     htmlDialog(title, htmlMessage);
+    sendDealToProvarity(obj.hubSpotDealID);
 }
 
 function removeAllSlides() {
